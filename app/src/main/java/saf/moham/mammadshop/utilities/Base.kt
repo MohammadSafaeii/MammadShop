@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -15,6 +16,7 @@ import saf.moham.mammadshop.R
 
 abstract class BaseViewModel:ViewModel(){
     val compositeDisposable=CompositeDisposable()
+    val showProgressBarLiveData = MutableLiveData<Boolean>()
 
     override fun onCleared() {
         compositeDisposable.clear()

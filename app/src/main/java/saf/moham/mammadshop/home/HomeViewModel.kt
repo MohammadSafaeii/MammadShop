@@ -10,7 +10,7 @@ import saf.moham.mammadshop.utilities.MySingleObserver
 
 class HomeViewModel(bannerRepository: BannerRepository): BaseViewModel() {
     val bannerLiveData = MutableLiveData <List<Banner>>()
-    val showProgressBarLiveData = MutableLiveData <Boolean>()
+
     init {
         showProgressBarLiveData.value=true
         bannerRepository.getBanners()
