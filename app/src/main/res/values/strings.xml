@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MammadShop</string>
+    <string name="bottomNavigation_home">خانه</string>
+    <string name="bottomNavigation_classification">دسته بندی</string>
+    <string name="bottomNavigation_shoppingCart">سبد خرید</string>
+    <string name="bottomNavigation_profile">ممد شاپ من</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_hint">جستجو در ممد شاپ</string>
+</resources>
