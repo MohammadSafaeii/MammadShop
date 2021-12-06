@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.utilities.MyFragment
@@ -22,8 +24,13 @@ class HomeFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewPager = view.findViewById<ViewPager2>(R.id.homeViewPager)
+        val dots_indicator=view.findViewById<DotsIndicator>(R.id.dots_indicator)
+
         homeViewModel.bannerLiveData.observe(viewLifecycleOwner){
-            Log.i("MYLOG", "onViewCreated: +$it")
+            val sliderFragmentAdapter = SliderFragmentAdapter(this,it)
+            viewPager.adapter=sliderFragmentAdapter
+            dots_indicator.setViewPager2(viewPager)
         }
         homeViewModel.showProgressBarLiveData.observe(viewLifecycleOwner){
             showProgressBar(it)

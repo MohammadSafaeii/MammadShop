@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frament_slider_root"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:viewAspectRatio="1.3"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    app:roundedCornerRadius="8dp"
+    tools:context=".home.SliderFragment">
+
+</com.facebook.drawee.view.SimpleDraweeView>
