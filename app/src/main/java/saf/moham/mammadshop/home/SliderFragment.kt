@@ -9,18 +9,19 @@ import com.facebook.drawee.view.SimpleDraweeView
 import org.koin.android.ext.android.inject
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.Banner
+import saf.moham.mammadshop.utilities.ImageLoading
 
 
 private const val BANNER = "imageUrl"
 
 class SliderFragment : Fragment() {
-    val imageLoading:ImageLoading by inject()
-    private var imageUrl: Banner? = null
+    val imageLoading: ImageLoading by inject()
+    private var banner: Banner? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            imageUrl = it.getParcelable(BANNER)
+            banner = it.getParcelable(BANNER)
         }
     }
 
@@ -29,7 +30,7 @@ class SliderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_slider, container, false)
-        imageUrl?.let { imageLoading.loadPicture(view as SimpleDraweeView, it) }
+        banner?.let { imageLoading.loadPicture(view as SimpleDraweeView, it.pic) }
         return view
     }
 

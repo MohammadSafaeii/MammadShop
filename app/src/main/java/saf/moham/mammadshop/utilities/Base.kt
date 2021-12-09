@@ -9,9 +9,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import saf.moham.mammadshop.R
 
 abstract class BaseViewModel:ViewModel(){
@@ -62,4 +65,9 @@ abstract class MyFragment:Fragment(),MyView{
         get() = view as ConstraintLayout?
     override val myContext: Context?
         get() = context
+}
+
+fun <T> Single<T>.singleHelper():Single<T> {
+    return subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }
