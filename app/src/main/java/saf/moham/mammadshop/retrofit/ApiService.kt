@@ -5,6 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import saf.moham.mammadshop.data.AmazingProduct
 import saf.moham.mammadshop.data.Banner
 import saf.moham.mammadshop.data.Cat
 
@@ -13,6 +14,8 @@ interface ApiService{
     fun getBanners():Single<List<Banner>>
     @GET("getcat.php")
     fun getCats():Single<List<Cat>>
+    @GET("readamazing.php")
+    fun getAmazingProducts():Single<List<AmazingProduct>>
 }
 
 fun getClient():ApiService{

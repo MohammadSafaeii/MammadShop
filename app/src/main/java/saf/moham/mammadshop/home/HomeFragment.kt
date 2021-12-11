@@ -1,7 +1,6 @@
 package saf.moham.mammadshop.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import saf.moham.mammadshop.R
+import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
 import saf.moham.mammadshop.home.adapter.SliderFragmentAdapter
 import saf.moham.mammadshop.utilities.MyFragment
@@ -32,8 +32,10 @@ class HomeFragment : MyFragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewPager = view.findViewById<ViewPager2>(R.id.homeViewPager)
         val dots_indicator=view.findViewById<DotsIndicator>(R.id.dots_indicator)
-        val recyclerView=view.findViewById<RecyclerView>(R.id.rv_home_cat)
-        recyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        val catsRecyclerView=view.findViewById<RecyclerView>(R.id.rv_home_cat)
+        val amazingProductsRecyclerView=view.findViewById<RecyclerView>(R.id.rv_home_amazingProduct)
+        catsRecyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        amazingProductsRecyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
         homeViewModel.bannerLiveData.observe(viewLifecycleOwner){
             val sliderFragmentAdapter = SliderFragmentAdapter(this,it)
@@ -42,7 +44,11 @@ class HomeFragment : MyFragment() {
         }
         homeViewModel.catLiveData.observe(viewLifecycleOwner){
             val rwAdapter:CatRWAdapter by inject { parametersOf(it) }
-            recyclerView.adapter=rwAdapter
+            catsRecyclerView.adapter=rwAdapter
+        }
+        homeViewModel.amazingProductLiveData.observe(viewLifecycleOwner){
+            val rwAdapter:AmazingProductRWAdapter by inject { parametersOf(it) }
+            amazingProductsRecyclerView.adapter=rwAdapter
         }
         homeViewModel.showProgressBarLiveData.observe(viewLifecycleOwner){
             showProgressBar(it)

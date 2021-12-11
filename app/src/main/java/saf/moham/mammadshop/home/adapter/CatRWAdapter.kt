@@ -10,7 +10,7 @@ import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.Cat
 import saf.moham.mammadshop.utilities.ImageLoading
 
-class CatRWAdapter(val cats:List<Cat>,val imageLoading: ImageLoading):RecyclerView.Adapter<CatRWAdapter.CatViewHolder>() {
+class CatRWAdapter(val cats:List<Cat>, val imageLoading: ImageLoading):RecyclerView.Adapter<CatRWAdapter.CatViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {

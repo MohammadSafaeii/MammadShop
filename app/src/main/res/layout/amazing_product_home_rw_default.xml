@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:padding="20dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/amazingProduct_default_image_rw"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="80dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/primary_bold"
+        android:maxLines="3"
+        android:minLines="3"
+        android:text="پیشنهاد شگفت انگیز"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/amazingProduct_default_image_rw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:textColor="@color/white"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="مشاهده همه"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amazingProduct_default_image_rw" />
+</androidx.constraintlayout.widget.ConstraintLayout>
