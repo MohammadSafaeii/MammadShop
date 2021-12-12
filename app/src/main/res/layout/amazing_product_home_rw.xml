@@ -5,7 +5,8 @@
     android:background="@drawable/amazing_products_background"
     android:layout_width="wrap_content"
     android:padding="6dp"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="18dp"
+    android:layout_marginBottom="18dp"
     android:layout_marginStart="6dp"
     android:layout_marginEnd="6dp"
     android:layout_height="wrap_content">

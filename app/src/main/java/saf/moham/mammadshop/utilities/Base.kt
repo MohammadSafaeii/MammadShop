@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +41,7 @@ abstract class MySingleObserver<T>(private val compositeDisposable: CompositeDis
 
 
 interface MyView {
-    val root:ConstraintLayout?
+    val root:CoordinatorLayout?
     val myContext:Context?
     fun showProgressBar (show:Boolean){
         root?.let { rootView->
@@ -61,8 +62,8 @@ abstract class MyActivity:AppCompatActivity(),MyView{
 }
 
 abstract class MyFragment:Fragment(),MyView{
-    override val root: ConstraintLayout?
-        get() = view as ConstraintLayout?
+    override val root: CoordinatorLayout?
+        get() = view as CoordinatorLayout?
     override val myContext: Context?
         get() = context
 }

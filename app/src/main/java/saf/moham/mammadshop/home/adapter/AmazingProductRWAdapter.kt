@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.compose.ui.graphics.Paint
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.producers.Producer
@@ -35,6 +36,7 @@ class AmazingProductRWAdapter(val amazingProducts:List<AmazingProduct>,val image
             holder.price.text=product.price
             holder.prePrice.text=product.pprice
             holder.title.text=product.title
+            holder.prePrice.paintFlags=android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 
