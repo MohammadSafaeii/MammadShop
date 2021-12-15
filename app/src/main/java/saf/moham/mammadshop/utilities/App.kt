@@ -8,6 +8,10 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import saf.moham.mammadshop.data.AmazingProduct
 import saf.moham.mammadshop.data.Cat
+import saf.moham.mammadshop.detail.DetailProductViewModel
+import saf.moham.mammadshop.detail.repository.DetailProductRepository
+import saf.moham.mammadshop.detail.repository.DetailProductRepositoryImp
+import saf.moham.mammadshop.detail.source.RemoteDetailProductDataSource
 import saf.moham.mammadshop.home.*
 import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
@@ -34,6 +38,10 @@ class App: Application() {
 
             factory {(cats:List<Cat>)-> CatRWAdapter(cats,get()) }
             factory {(amazingProducts:List<AmazingProduct>)-> AmazingProductRWAdapter(amazingProducts,get()) }
+
+            factory<DetailProductRepository> { DetailProductRepositoryImp(RemoteDetailProductDataSource(get())) }
+            viewModel {(id:String)-> DetailProductViewModel(id,get()) }
+
         }
 
         startKoin {

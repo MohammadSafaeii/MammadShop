@@ -17,6 +17,8 @@ import saf.moham.mammadshop.utilities.ImageLoading
 
 class AmazingProductRWAdapter(val amazingProducts:List<AmazingProduct>,val imageLoading: ImageLoading): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var onAmazingProductItemClickListener:OnAmazingProductItemClickListener?=null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == 0) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.amazing_product_home_rw_default,parent,false)
@@ -37,6 +39,9 @@ class AmazingProductRWAdapter(val amazingProducts:List<AmazingProduct>,val image
             holder.prePrice.text=product.pprice
             holder.title.text=product.title
             holder.prePrice.paintFlags=android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+            holder.itemView.setOnClickListener{
+                onAmazingProductItemClickListener?.amazingProductItemClicked(product)
+            }
         }
     }
 
@@ -60,5 +65,13 @@ class AmazingProductRWAdapter(val amazingProducts:List<AmazingProduct>,val image
 
     class AmazingProductViewHolderDefault(itemView: View) : RecyclerView.ViewHolder(itemView){
         val image=itemView.findViewById<ImageView>(R.id.amazingProduct_default_image_rw)
+    }
+
+    fun setProductListener(onAmazingProductItemClickListener:OnAmazingProductItemClickListener){
+        this.onAmazingProductItemClickListener=onAmazingProductItemClickListener
+    }
+
+    interface OnAmazingProductItemClickListener{
+        fun amazingProductItemClicked(product:AmazingProduct)
     }
 }

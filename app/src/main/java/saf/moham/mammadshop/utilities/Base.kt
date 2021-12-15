@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,7 +59,21 @@ interface MyView {
 }
 
 abstract class MyActivity:AppCompatActivity(),MyView{
-
+    override val root: CoordinatorLayout?
+        get() {
+            val parent=window.decorView.findViewById<ViewGroup>(android.R.id.content)
+            if(parent !is CoordinatorLayout){
+                parent.children.forEach {
+                    if (it is CoordinatorLayout)
+                        return it
+                }
+                throw Exception ("CoordinatorLayout for progressBar didn't found")
+            }else{
+                return parent
+            }
+        }
+    override val myContext: Context?
+        get() = this
 }
 
 abstract class MyFragment:Fragment(),MyView{
