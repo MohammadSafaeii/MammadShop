@@ -74,5 +74,7 @@ dependencies {
 
     implementation 'com.tbuonomo:dotsindicator:4.2'
 
+    implementation 'com.akexorcist:round-corner-progress-bar:2.1.2'
+
 
 }
