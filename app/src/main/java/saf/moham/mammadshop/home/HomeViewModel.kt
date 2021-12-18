@@ -21,11 +21,12 @@ class HomeViewModel(bannerRepository: BannerRepository,catRepository: CatReposit
 
         bannerRepository.getBanners()
             .singleHelper()
-            .doFinally {
+/*            .doFinally {
                 showProgressBarLiveData.value=false
-            }
+            }*/
             .subscribe(object : MySingleObserver<List<Banner>>(compositeDisposable){
                 override fun onSuccess(t: List<Banner>) {
+                    showProgressBarLiveData.value=false
                     bannerLiveData.value=t
                 }
             })

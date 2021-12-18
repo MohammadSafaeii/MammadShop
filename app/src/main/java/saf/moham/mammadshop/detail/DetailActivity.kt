@@ -1,9 +1,11 @@
 package saf.moham.mammadshop.detail
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
@@ -29,10 +31,10 @@ class DetailActivity : MyActivity() {
         val txtGuarantee=findViewById<TextView>(R.id.text_detail_guarantee)
         val txtIntro=findViewById<TextView>(R.id.text_introduction)
         val ratingBar=findViewById<RatingBar>(R.id.detail_ratingBar)
+        val goProperties=findViewById<ImageView>(R.id.go_properties_image)
 
 
         detailProductViewModel.detailProductLiveData.observe(this){
-            Log.i("MYLOG", "onCreate: $it")
             val product=it[0]
             imageLoading.loadPicture(mainImage,product.image)
             txtTitle.text=product.title
@@ -52,5 +54,10 @@ class DetailActivity : MyActivity() {
         detailProductViewModel.showProgressBarLiveData.observe(this){
             showProgressBar(it)
         }
+
+        goProperties.setOnClickListener{
+            startActivity(Intent(this,PropertyActivity::class.java))
+        }
+
     }
 }

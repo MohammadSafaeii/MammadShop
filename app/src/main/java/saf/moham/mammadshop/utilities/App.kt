@@ -9,9 +9,13 @@ import org.koin.dsl.module
 import saf.moham.mammadshop.data.AmazingProduct
 import saf.moham.mammadshop.data.Cat
 import saf.moham.mammadshop.detail.DetailProductViewModel
+import saf.moham.mammadshop.detail.PropertyViewModel
 import saf.moham.mammadshop.detail.repository.DetailProductRepository
 import saf.moham.mammadshop.detail.repository.DetailProductRepositoryImp
+import saf.moham.mammadshop.detail.repository.PropertiesRepository
+import saf.moham.mammadshop.detail.repository.PropertiesRepositoryImp
 import saf.moham.mammadshop.detail.source.RemoteDetailProductDataSource
+import saf.moham.mammadshop.detail.source.RemotePropertiesDataSource
 import saf.moham.mammadshop.home.*
 import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
@@ -41,6 +45,9 @@ class App: Application() {
 
             factory<DetailProductRepository> { DetailProductRepositoryImp(RemoteDetailProductDataSource(get())) }
             viewModel {(id:String)-> DetailProductViewModel(id,get()) }
+
+            factory<PropertiesRepository> { PropertiesRepositoryImp(RemotePropertiesDataSource(get())) }
+            viewModel { PropertyViewModel(get()) }
 
         }
 

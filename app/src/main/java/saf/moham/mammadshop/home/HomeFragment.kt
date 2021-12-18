@@ -65,7 +65,6 @@ class HomeFragment : MyFragment(),AmazingProductRWAdapter.OnAmazingProductItemCl
         startActivity(Intent(context,DetailActivity::class.java).apply {
             putExtra("id",product.id)
         })
-
     }
 
 }

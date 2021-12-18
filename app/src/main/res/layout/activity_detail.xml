@@ -110,6 +110,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="TextView"
+                android:textColor="@color/black"
+                android:fontFamily="@font/primary_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_main_product" />
@@ -209,7 +211,7 @@
             </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/go_properties_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -238,7 +240,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                app:layout_constraintTop_toBottomOf="@+id/go_properties_image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -272,7 +274,7 @@
                     android:id="@+id/text_detail_prePrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
+                    android:textSize="13sp"
                     android:text="۱۰۰۰۰۰ تومان"/>
 
                 <TextView

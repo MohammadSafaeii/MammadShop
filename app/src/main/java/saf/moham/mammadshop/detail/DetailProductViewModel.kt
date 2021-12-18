@@ -16,11 +16,9 @@ class DetailProductViewModel(id:String, detailProductRepository: DetailProductRe
         idLiveData.value=id
         detailProductRepository.getDetailProduct(idLiveData.value!!,"")
             .singleHelper()
-            .doFinally {
-                showProgressBarLiveData.value=false
-            }
             .subscribe(object : MySingleObserver<List<DetailProduct>>(compositeDisposable){
                 override fun onSuccess(t: List<DetailProduct>) {
+                    showProgressBarLiveData.value=false
                     detailProductLiveData.value=t
                 }
             })

@@ -12,7 +12,6 @@ import saf.moham.mammadshop.data.Banner
 import saf.moham.mammadshop.utilities.ImageLoading
 
 
-private const val BANNER = "imageUrl"
 
 class SliderFragment : Fragment() {
     val imageLoading: ImageLoading by inject()
@@ -21,7 +20,7 @@ class SliderFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            banner = it.getParcelable(BANNER)
+            banner = it.getParcelable("banner")
         }
     }
 
@@ -39,7 +38,7 @@ class SliderFragment : Fragment() {
         fun newInstance(banner: Banner) =
             SliderFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(BANNER, banner)
+                    putParcelable("banner", banner)
                 }
             }
     }

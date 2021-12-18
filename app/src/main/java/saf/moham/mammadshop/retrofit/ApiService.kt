@@ -6,10 +6,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import saf.moham.mammadshop.data.AmazingProduct
-import saf.moham.mammadshop.data.Banner
-import saf.moham.mammadshop.data.Cat
-import saf.moham.mammadshop.data.DetailProduct
+import saf.moham.mammadshop.data.*
 
 interface ApiService{
     @GET("readbanner.php")
@@ -20,6 +17,8 @@ interface ApiService{
     fun getAmazingProducts():Single<List<AmazingProduct>>
     @GET("getdetail.php")
     fun getDetailProduct(@Query("id") id:String, @Query("user") user:String):Single<List<DetailProduct>>
+    @GET("properties.php")
+    fun getProperties():Single<List<Property>>
 }
 
 fun getClient():ApiService{
