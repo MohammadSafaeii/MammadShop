@@ -1,4 +1,4 @@
-package saf.moham.mammadshop.detail
+package saf.moham.mammadshop.detail.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import saf.moham.mammadshop.data.Property

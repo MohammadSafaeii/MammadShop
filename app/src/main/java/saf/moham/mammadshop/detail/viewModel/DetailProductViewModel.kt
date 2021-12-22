@@ -1,4 +1,4 @@
-package saf.moham.mammadshop.detail
+package saf.moham.mammadshop.detail.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.disposables.CompositeDisposable

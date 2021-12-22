@@ -1,16 +1,17 @@
 package saf.moham.mammadshop.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.android.ext.android.inject
 import saf.moham.mammadshop.R
+import saf.moham.mammadshop.detail.adapter.PropertyRWAdapter
+import saf.moham.mammadshop.detail.viewModel.PropertyViewModel
 import saf.moham.mammadshop.utilities.MyActivity
 
 class PropertyActivity : MyActivity() {
-    val propertyViewModel:PropertyViewModel by inject()
+    val propertyViewModel: PropertyViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

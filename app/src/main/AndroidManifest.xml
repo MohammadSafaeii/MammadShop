@@ -14,10 +14,13 @@
         android:theme="@style/Theme.MammadShop"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".detail.GraphActivity"
+            android:exported="false" />
+        <activity
             android:name=".detail.PropertyActivity"
             android:exported="false" />
         <activity
-            android:name=".detail.DetailActivity"
+            android:name=".detail.DetailProductActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

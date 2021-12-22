@@ -8,14 +8,13 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import saf.moham.mammadshop.data.AmazingProduct
 import saf.moham.mammadshop.data.Cat
-import saf.moham.mammadshop.detail.DetailProductViewModel
-import saf.moham.mammadshop.detail.PropertyViewModel
-import saf.moham.mammadshop.detail.repository.DetailProductRepository
-import saf.moham.mammadshop.detail.repository.DetailProductRepositoryImp
-import saf.moham.mammadshop.detail.repository.PropertiesRepository
-import saf.moham.mammadshop.detail.repository.PropertiesRepositoryImp
+import saf.moham.mammadshop.detail.repository.*
+import saf.moham.mammadshop.detail.viewModel.DetailProductViewModel
+import saf.moham.mammadshop.detail.viewModel.PropertyViewModel
 import saf.moham.mammadshop.detail.source.RemoteDetailProductDataSource
+import saf.moham.mammadshop.detail.source.RemoteGraphDataSource
 import saf.moham.mammadshop.detail.source.RemotePropertiesDataSource
+import saf.moham.mammadshop.detail.viewModel.GraphViewModel
 import saf.moham.mammadshop.home.*
 import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
@@ -40,14 +39,17 @@ class App: Application() {
 
             single<ImageLoading> { ImageLoadingImp() }
 
-            factory {(cats:List<Cat>)-> CatRWAdapter(cats,get()) }
-            factory {(amazingProducts:List<AmazingProduct>)-> AmazingProductRWAdapter(amazingProducts,get()) }
+            factory { (cats:List<Cat>)-> CatRWAdapter(cats,get()) }
+            factory { (amazingProducts:List<AmazingProduct>)-> AmazingProductRWAdapter(amazingProducts,get()) }
 
             factory<DetailProductRepository> { DetailProductRepositoryImp(RemoteDetailProductDataSource(get())) }
-            viewModel {(id:String)-> DetailProductViewModel(id,get()) }
+            viewModel { (id:String)-> DetailProductViewModel(id,get()) }
 
             factory<PropertiesRepository> { PropertiesRepositoryImp(RemotePropertiesDataSource(get())) }
             viewModel { PropertyViewModel(get()) }
+
+            factory<GraphRepository> { GraphRepositoryImp(RemoteGraphDataSource(get())) }
+            viewModel { (id:String)-> GraphViewModel(id,get()) }
 
         }
 

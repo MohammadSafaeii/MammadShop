@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.compose.runtime.produceState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
@@ -17,14 +17,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.RatingItem
-import saf.moham.mammadshop.utilities.ImageLoading
-import saf.moham.mammadshop.utilities.MyActivity
-import java.awt.font.TextAttribute
+import saf.moham.mammadshop.detail.adapter.RatingItemRWAdapter
+import saf.moham.mammadshop.detail.viewModel.DetailProductViewModel
+import saf.moham.mammadshop.utilities.*
 import java.util.ArrayList
 
-class DetailActivity : MyActivity() {
-    val detailProductViewModel:DetailProductViewModel by viewModel { parametersOf(intent.extras!!.getString("id")) }
+class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialogItemClicked {
+    val detailProductViewModel: DetailProductViewModel by viewModel { parametersOf(intent.extras!!.getString("id")) }
     val imageLoading:ImageLoading by inject()
+    lateinit var productId:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -35,14 +36,19 @@ class DetailActivity : MyActivity() {
         val txtColor=findViewById<TextView>(R.id.text_detail_color)
         val txtGuarantee=findViewById<TextView>(R.id.text_detail_guarantee)
         val txtIntro=findViewById<TextView>(R.id.text_introduction)
-        val ratingBar=findViewById<RatingBar>(R.id.detail_ratingBar)
         val goProperties=findViewById<ImageView>(R.id.go_properties_image)
+        val imgMore=findViewById<ImageView>(R.id.image_more)
+        val imgFavorite=findViewById<ImageView>(R.id.image_favorite)
+        val imgBasket=findViewById<ImageView>(R.id.image_shop)
+        val imgClose=findViewById<ImageView>(R.id.image_close)
+        val ratingBar=findViewById<RatingBar>(R.id.detail_ratingBar)
         val ratingsItemRw=findViewById<RecyclerView>(R.id.ratings_rw)
 
         ratingsItemRw.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
         detailProductViewModel.detailProductLiveData.observe(this){
             val product=it[0]
+            productId=product.id
             imageLoading.loadPicture(mainImage,product.image)
             txtTitle.text=product.title
             txtPrice.text=product.price
@@ -79,5 +85,39 @@ class DetailActivity : MyActivity() {
             startActivity(Intent(this,PropertyActivity::class.java))
         }
 
+        imgClose.setOnClickListener {
+            finish()
+        }
+
+        imgMore.setOnClickListener {
+            val moreBottomDialog=MoreBottomDialogFragment()
+            moreBottomDialog.show(supportFragmentManager,null)
+            moreBottomDialog.setItemClickListener(this)
+        }
+
     }
+
+    override fun itemClicked(thisType: String) {
+        when(thisType){
+            GRAPH->{
+                val intent = Intent(applicationContext,GraphActivity::class.java).apply {
+                    putExtra("id",productId)
+                }
+                startActivity(intent)
+            }
+            COMPARE->{
+
+            }
+            SHARE->{
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "https://www.digikala.com/product/dkp-7328010/گوشی-موبایل-شیائومی-مدل-redmi-note-10s-m2101k7bny-دو-سیم-کارت-ظرفیت-64-گیگابایت-و-رم-6-گیگابایت")
+                }
+                startActivity(Intent.createChooser(intent,"معرفی محصول"))
+            }
+        }
+    }
+
 }

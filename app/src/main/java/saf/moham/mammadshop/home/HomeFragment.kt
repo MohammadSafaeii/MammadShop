@@ -14,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.AmazingProduct
-import saf.moham.mammadshop.detail.DetailActivity
+import saf.moham.mammadshop.detail.DetailProductActivity
 import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
 import saf.moham.mammadshop.home.adapter.SliderFragmentAdapter
@@ -62,7 +62,7 @@ class HomeFragment : MyFragment(),AmazingProductRWAdapter.OnAmazingProductItemCl
     }
 
     override fun amazingProductItemClicked(product: AmazingProduct) {
-        startActivity(Intent(context,DetailActivity::class.java).apply {
+        startActivity(Intent(context,DetailProductActivity::class.java).apply {
             putExtra("id",product.id)
         })
     }

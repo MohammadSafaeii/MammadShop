@@ -19,6 +19,8 @@ interface ApiService{
     fun getDetailProduct(@Query("id") id:String, @Query("user") user:String):Single<List<DetailProduct>>
     @GET("properties.php")
     fun getProperties():Single<List<Property>>
+    @GET("history.php")
+    fun getPriceHistory(@Query("id") id:String):Single<List<PriceHistory>>
 }
 
 fun getClient():ApiService{

@@ -1,4 +1,4 @@
-package saf.moham.mammadshop.detail
+package saf.moham.mammadshop.detail.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-import com.akexorcist.roundcornerprogressbar.indeterminate.IndeterminateRoundCornerProgressBar
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.RatingItem
 
