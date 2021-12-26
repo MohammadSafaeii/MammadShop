@@ -21,6 +21,8 @@ interface ApiService{
     fun getProperties():Single<List<Property>>
     @GET("history.php")
     fun getPriceHistory(@Query("id") id:String):Single<List<PriceHistory>>
+    @GET("getcomparelist.php")
+    fun getComparableProducts(@Query("cat") kind:String):Single<List<ComparableProductData>>
 }
 
 fun getClient():ApiService{

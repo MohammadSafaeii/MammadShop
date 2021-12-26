@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.detail.adapter.PropertyRWAdapter
 import saf.moham.mammadshop.detail.viewModel.PropertyViewModel
@@ -22,7 +23,7 @@ class PropertyActivity : MyActivity() {
         propertyRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
         propertyViewModel.propertiesLiveData.observe(this){
-            val rwAdapter = PropertyRWAdapter (it)
+            val rwAdapter: PropertyRWAdapter by inject { parametersOf(it) }
             propertyRecyclerView.adapter=rwAdapter
         }
 

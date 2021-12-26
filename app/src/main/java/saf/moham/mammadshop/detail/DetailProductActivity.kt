@@ -26,6 +26,7 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
     val detailProductViewModel: DetailProductViewModel by viewModel { parametersOf(intent.extras!!.getString("id")) }
     val imageLoading:ImageLoading by inject()
     lateinit var productId:String
+    lateinit var productKind:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -49,6 +50,7 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
         detailProductViewModel.detailProductLiveData.observe(this){
             val product=it[0]
             productId=product.id
+            productKind=product.cat
             imageLoading.loadPicture(mainImage,product.image)
             txtTitle.text=product.title
             txtPrice.text=product.price
@@ -72,7 +74,7 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
                 ratingItemsList.add(ratingItem)
             }
 
-            val rwAdapter = RatingItemRWAdapter(ratingItemsList)
+            val rwAdapter: RatingItemRWAdapter by inject { parametersOf(ratingItemsList) }
             ratingsItemRw.adapter = rwAdapter
 
         }
@@ -106,7 +108,11 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
                 startActivity(intent)
             }
             COMPARE->{
-
+                val intent = Intent(applicationContext,ComparableProductsActivity::class.java).apply {
+                    putExtra("main_product_id",productId)
+                    putExtra("main_product_cat",productKind)
+                }
+                startActivity(intent)
             }
             SHARE->{
                 val intent = Intent(Intent.ACTION_SEND).apply {

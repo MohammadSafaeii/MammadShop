@@ -14,6 +14,12 @@
         android:theme="@style/Theme.MammadShop"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".detail.CompareActivity"
+            android:exported="false" />
+        <activity
+            android:name=".detail.ComparableProductsActivity"
+            android:exported="false" />
+        <activity
             android:name=".detail.GraphActivity"
             android:exported="false" />
         <activity
