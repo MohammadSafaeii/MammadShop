@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/red_circle.xml" value="0.23697916666666666" />
         <entry key="app/src/main/res/drawable/shape_edt_search.xml" value="0.2359375" />
         <entry key="app/src/main/res/layout/activity_comparable_products.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/activity_compare.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_graph.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29128205128205126" />
@@ -21,6 +22,8 @@
         <entry key="app/src/main/res/layout/amazing_product_home_rw_default.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/cat_home_rw.xml" value="0.1" />
         <entry key="app/src/main/res/layout/comparable_product_rw.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/compare_detail_rw.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/compare_title_rw.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_slider.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.1546875" />

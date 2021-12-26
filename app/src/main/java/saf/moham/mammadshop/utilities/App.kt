@@ -9,17 +9,15 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import saf.moham.mammadshop.data.*
 import saf.moham.mammadshop.detail.adapter.ComparableProductsRWAdapter
+import saf.moham.mammadshop.detail.adapter.CompareRWAdapter
 import saf.moham.mammadshop.detail.adapter.PropertyRWAdapter
 import saf.moham.mammadshop.detail.adapter.RatingItemRWAdapter
 import saf.moham.mammadshop.detail.repository.*
 import saf.moham.mammadshop.detail.source.RemoteComparableProductsDataSource
-import saf.moham.mammadshop.detail.viewModel.DetailProductViewModel
-import saf.moham.mammadshop.detail.viewModel.PropertyViewModel
 import saf.moham.mammadshop.detail.source.RemoteDetailProductDataSource
 import saf.moham.mammadshop.detail.source.RemoteGraphDataSource
 import saf.moham.mammadshop.detail.source.RemotePropertiesDataSource
-import saf.moham.mammadshop.detail.viewModel.ComparableProductsViewModel
-import saf.moham.mammadshop.detail.viewModel.GraphViewModel
+import saf.moham.mammadshop.detail.viewModel.*
 import saf.moham.mammadshop.home.*
 import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
@@ -49,6 +47,7 @@ class App: Application() {
             factory { (properties:List<Property>)-> PropertyRWAdapter(properties) }
             factory { (rating:List<RatingItem>)-> RatingItemRWAdapter(rating) }
             factory { (comparableProducts:List<ComparableProductData>, id:String)-> ComparableProductsRWAdapter(comparableProducts, id, get()) }
+            factory { (firstList:List<Property>,secondList:List<Property>)-> CompareRWAdapter(firstList,secondList) }
 
             factory<DetailProductRepository> { DetailProductRepositoryImp(RemoteDetailProductDataSource(get())) }
             viewModel { (id:String)-> DetailProductViewModel(id,get()) }
@@ -61,6 +60,8 @@ class App: Application() {
 
             factory<ComparableProductsRepository> { ComparableProductsRepositoryImp(RemoteComparableProductsDataSource(get())) }
             viewModel { (bundle:Bundle)-> ComparableProductsViewModel(bundle,get()) }
+
+            viewModel { (bundle:Bundle)-> CompareViewModel(bundle,get(),get()) }
         }
 
         startKoin {

@@ -1,6 +1,7 @@
 package saf.moham.mammadshop.detail
 
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -25,6 +26,7 @@ class GraphActivity : MyActivity() {
         setContentView(R.layout.activity_graph)
 
         val lineChart = findViewById<LineChart>(R.id.line_chart)
+        val backImg=findViewById<ImageView>(R.id.go_back_image)
 
         graphViewModel.graphLiveData.observe(this) {
             if (it.isNotEmpty()) {
@@ -72,6 +74,11 @@ class GraphActivity : MyActivity() {
         graphViewModel.showProgressBarLiveData.observe(this){
             showProgressBar(it)
         }
+
+        backImg.setOnClickListener{
+            finish()
+        }
+
 
     }
 }

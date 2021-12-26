@@ -27,7 +27,6 @@ class ComparableProductsRWAdapter(val comparableProducts:List<ComparableProductD
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = comparableProducts[position]
         if (getItemViewType(position)==0){
-
         }else{
             (holder as ComparableProductsViewHolder).txtTitle.text=item.title
             holder.txtPrice.text=item.price

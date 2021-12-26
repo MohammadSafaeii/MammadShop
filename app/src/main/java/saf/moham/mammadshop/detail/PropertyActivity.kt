@@ -19,7 +19,7 @@ class PropertyActivity : MyActivity() {
         setContentView(R.layout.activity_property)
 
         val propertyRecyclerView=findViewById<RecyclerView>(R.id.rw_properties)
-        val backImg=findViewById<ImageView>(R.id.go_back_img)
+        val backImg=findViewById<ImageView>(R.id.go_back_image)
         propertyRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
         propertyViewModel.propertiesLiveData.observe(this){

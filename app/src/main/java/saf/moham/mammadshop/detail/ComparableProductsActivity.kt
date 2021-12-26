@@ -1,7 +1,6 @@
 package saf.moham.mammadshop.detail
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,13 +20,14 @@ class ComparableProductsActivity : MyActivity(),ComparableProductsRWAdapter.OnCo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comparable_products)
 
-        val backImg=findViewById<ImageView>(R.id.go_back_img)
+        val backImg=findViewById<ImageView>(R.id.go_back_image)
         val comparableProductsRW = findViewById<RecyclerView>(R.id.comparable_product_rw)
         comparableProductsRW.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
         comparableProductsViewModel.comparableProductsLiveData.observe(this){
             val rwAdapter: ComparableProductsRWAdapter by inject { parametersOf(it,comparableProductsViewModel.firstProductId) }
             comparableProductsRW.adapter = rwAdapter
+            rwAdapter.setComparableProductListener(this)
         }
 
         comparableProductsViewModel.showProgressBarLiveData.observe(this){
