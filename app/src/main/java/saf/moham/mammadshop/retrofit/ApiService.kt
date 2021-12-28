@@ -4,8 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 import saf.moham.mammadshop.data.*
 
 interface ApiService{
@@ -23,6 +22,12 @@ interface ApiService{
     fun getPriceHistory(@Query("id") id:String):Single<List<PriceHistory>>
     @GET("getcomparelist.php")
     fun getComparableProducts(@Query("cat") kind:String):Single<List<ComparableProductData>>
+    @FormUrlEncoded
+    @POST("register.php")
+    fun register(@Field("email") email:String, @Field("pass") pass:String):Single<RegisterAndLoginMessage>
+    @FormUrlEncoded
+    @POST("login2.php")
+    fun login(@Field("email") email:String, @Field("pass")pass:String):Single<RegisterAndLoginMessage>
 }
 
 fun getClient():ApiService{

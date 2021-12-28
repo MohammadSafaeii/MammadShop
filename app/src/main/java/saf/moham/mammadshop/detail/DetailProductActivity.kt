@@ -19,6 +19,7 @@ import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.RatingItem
 import saf.moham.mammadshop.detail.adapter.RatingItemRWAdapter
 import saf.moham.mammadshop.detail.viewModel.DetailProductViewModel
+import saf.moham.mammadshop.register_and_login.LoginActivity
 import saf.moham.mammadshop.utilities.*
 import java.util.ArrayList
 
@@ -95,6 +96,10 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
             val moreBottomDialog=MoreBottomDialogFragment()
             moreBottomDialog.show(supportFragmentManager,null)
             moreBottomDialog.setItemClickListener(this)
+        }
+
+        imgFavorite.setOnClickListener {
+            startActivity(Intent(applicationContext,LoginActivity::class.java))
         }
 
     }

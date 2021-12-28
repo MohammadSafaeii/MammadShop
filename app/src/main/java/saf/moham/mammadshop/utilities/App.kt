@@ -1,6 +1,7 @@
 package saf.moham.mammadshop.utilities
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.os.Bundle
 import com.facebook.drawee.backends.pipeline.Fresco
 import org.koin.android.ext.koin.androidContext
@@ -23,6 +24,11 @@ import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
 import saf.moham.mammadshop.home.repository.*
 import saf.moham.mammadshop.home.source.*
+import saf.moham.mammadshop.register_and_login.RegisterAndLoginViewModel
+import saf.moham.mammadshop.register_and_login.repository.RegisterAndLoginRepository
+import saf.moham.mammadshop.register_and_login.repository.RegisterAndLoginRepositoryImp
+import saf.moham.mammadshop.register_and_login.source.LocalRegisterAndLoginDataSource
+import saf.moham.mammadshop.register_and_login.source.RemoteRegisterAndLoginDataSource
 import saf.moham.mammadshop.retrofit.getClient
 
 class App: Application() {
@@ -62,6 +68,11 @@ class App: Application() {
             viewModel { (bundle:Bundle)-> ComparableProductsViewModel(bundle,get()) }
 
             viewModel { (bundle:Bundle)-> CompareViewModel(bundle,get(),get()) }
+
+            single<SharedPreferences> { this@App.getSharedPreferences("user_data", MODE_PRIVATE) }
+            factory<RegisterAndLoginRepository> { RegisterAndLoginRepositoryImp(RemoteRegisterAndLoginDataSource(get()),LocalRegisterAndLoginDataSource(get())) }
+            viewModel { RegisterAndLoginViewModel(get()) }
+
         }
 
         startKoin {
