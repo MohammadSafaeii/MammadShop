@@ -2,6 +2,7 @@ package saf.moham.mammadshop.register_and_login.source
 
 import android.content.SharedPreferences
 import io.reactivex.rxjava3.core.Single
+import saf.moham.mammadshop.data.Message
 import saf.moham.mammadshop.data.RegisterAndLoginMessage
 import saf.moham.mammadshop.register_and_login.TokenHolder
 
@@ -26,14 +27,17 @@ class LocalRegisterAndLoginDataSource(val sharedPreferences: SharedPreferences):
     }
 
     override fun checkLogin(): Boolean {
+        if (sharedPreferences.getString("token","")=="")
+            return true
+        else
+            return false
+    }
+
+    override fun addToFav(id: String): Single<Message> {
         TODO("Not yet implemented")
     }
 
-    override fun addToFav(id: String): Single<RegisterAndLoginMessage> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteFromFav(id: String): Single<RegisterAndLoginMessage> {
+    override fun deleteFromFav(id: String): Single<Message> {
         TODO("Not yet implemented")
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.os.Bundle
 import com.facebook.drawee.backends.pipeline.Fresco
+import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -39,14 +40,19 @@ class App: Application() {
 
         val myModules = module {
             single { getClient() }
-            factory<BannerRepository> { BannerRepositoryImp(LocalBannerDataSource(get()),
-                RemoteBannerDataSource(get())
-            ) }
-            factory<CatRepository> { CatRepositoryImp(RemoteCatDataSource(get())) }
-            factory<AmazingProductRepository> { AmazingProductRepositoryImp(RemoteAmazingProductDataSource(get())) }
-            viewModel { HomeViewModel(get(),get(),get()) }
 
             single<ImageLoading> { ImageLoadingImp() }
+
+            single<SharedPreferences> { this@App.getSharedPreferences("user_data", MODE_PRIVATE) }
+
+            factory<BannerRepository> { BannerRepositoryImp(LocalBannerDataSource(get()), RemoteBannerDataSource(get())) }
+            factory<CatRepository> { CatRepositoryImp(RemoteCatDataSource(get())) }
+            factory<AmazingProductRepository> { AmazingProductRepositoryImp(RemoteAmazingProductDataSource(get())) }
+            factory<RegisterAndLoginRepository> { RegisterAndLoginRepositoryImp(RemoteRegisterAndLoginDataSource(get()),LocalRegisterAndLoginDataSource(get())) }
+            factory<DetailProductRepository> { DetailProductRepositoryImp(RemoteDetailProductDataSource(get())) }
+            factory<PropertiesRepository> { PropertiesRepositoryImp(RemotePropertiesDataSource(get())) }
+            factory<GraphRepository> { GraphRepositoryImp(RemoteGraphDataSource(get())) }
+            factory<ComparableProductsRepository> { ComparableProductsRepositoryImp(RemoteComparableProductsDataSource(get())) }
 
             factory { (cats:List<Cat>)-> CatRWAdapter(cats,get()) }
             factory { (amazingProducts:List<AmazingProduct>)-> AmazingProductRWAdapter(amazingProducts,get()) }
@@ -55,22 +61,18 @@ class App: Application() {
             factory { (comparableProducts:List<ComparableProductData>, id:String)-> ComparableProductsRWAdapter(comparableProducts, id, get()) }
             factory { (firstList:List<Property>,secondList:List<Property>)-> CompareRWAdapter(firstList,secondList) }
 
-            factory<DetailProductRepository> { DetailProductRepositoryImp(RemoteDetailProductDataSource(get())) }
-            viewModel { (id:String)-> DetailProductViewModel(id,get()) }
+            viewModel { HomeViewModel(get(),get(),get()) }
 
-            factory<PropertiesRepository> { PropertiesRepositoryImp(RemotePropertiesDataSource(get())) }
+            viewModel { (id:String)-> DetailProductViewModel(id,get(),get()) }
+
             viewModel { PropertyViewModel(get()) }
 
-            factory<GraphRepository> { GraphRepositoryImp(RemoteGraphDataSource(get())) }
             viewModel { (id:String)-> GraphViewModel(id,get()) }
 
-            factory<ComparableProductsRepository> { ComparableProductsRepositoryImp(RemoteComparableProductsDataSource(get())) }
             viewModel { (bundle:Bundle)-> ComparableProductsViewModel(bundle,get()) }
 
             viewModel { (bundle:Bundle)-> CompareViewModel(bundle,get(),get()) }
 
-            single<SharedPreferences> { this@App.getSharedPreferences("user_data", MODE_PRIVATE) }
-            factory<RegisterAndLoginRepository> { RegisterAndLoginRepositoryImp(RemoteRegisterAndLoginDataSource(get()),LocalRegisterAndLoginDataSource(get())) }
             viewModel { RegisterAndLoginViewModel(get()) }
 
         }
@@ -79,6 +81,9 @@ class App: Application() {
             androidContext(this@App)
             modules(myModules)
         }
+
+        val registerAndLoginRepository:RegisterAndLoginRepository = get()
+        registerAndLoginRepository.loadToken()
 
     }
 }

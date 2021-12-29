@@ -33,6 +33,10 @@ class LoginActivity : MyActivity() {
             startActivity(Intent(applicationContext,MainActivity::class.java))
         }
 
+        registerAndLoginViewModel.errorLiveData.observe(this){
+            Toast.makeText(applicationContext, "متاسفانه ورود انجام نشد", Toast.LENGTH_SHORT).show()
+        }
+
         registerAndLoginViewModel.showProgressBarLiveData.observe(this){
             showProgressBar(it)
         }

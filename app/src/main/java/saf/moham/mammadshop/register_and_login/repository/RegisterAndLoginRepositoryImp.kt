@@ -1,6 +1,7 @@
 package saf.moham.mammadshop.register_and_login.repository
 
 import io.reactivex.rxjava3.core.Single
+import saf.moham.mammadshop.data.Message
 import saf.moham.mammadshop.data.RegisterAndLoginMessage
 import saf.moham.mammadshop.register_and_login.TokenHolder
 import saf.moham.mammadshop.register_and_login.source.LocalRegisterAndLoginDataSource
@@ -30,11 +31,11 @@ class RegisterAndLoginRepositoryImp(val remoteRegisterAndLoginDataSource: Regist
         return localRegisterAndLoginDataSource.checkLogin()
     }
 
-    override fun addToFav(id: String): Single<RegisterAndLoginMessage> {
+    override fun addToFav(id: String): Single<Message> {
         return remoteRegisterAndLoginDataSource.addToFav(id)
     }
 
-    override fun deleteFromFav(id: String): Single<RegisterAndLoginMessage> {
-        return remoteRegisterAndLoginDataSource.addToFav(id)
+    override fun deleteFromFav(id: String): Single<Message> {
+        return remoteRegisterAndLoginDataSource.deleteFromFav(id)
     }
 }

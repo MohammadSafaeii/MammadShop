@@ -1,6 +1,7 @@
 package saf.moham.mammadshop.register_and_login.source
 
 import io.reactivex.rxjava3.core.Single
+import saf.moham.mammadshop.data.Message
 import saf.moham.mammadshop.data.RegisterAndLoginMessage
 
 interface RegisterAndLoginDataSource {
@@ -9,6 +10,6 @@ interface RegisterAndLoginDataSource {
     fun saveToken(token:String, refreshToken:String)
     fun loadToken()
     fun checkLogin():Boolean
-    fun addToFav(id:String):Single<RegisterAndLoginMessage>
-    fun deleteFromFav(id:String):Single<RegisterAndLoginMessage>
+    fun addToFav(id:String):Single<Message>
+    fun deleteFromFav(id:String):Single<Message>
 }

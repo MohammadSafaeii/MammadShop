@@ -7,6 +7,7 @@ import android.text.Html
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.runtime.produceState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,11 +21,14 @@ import saf.moham.mammadshop.data.RatingItem
 import saf.moham.mammadshop.detail.adapter.RatingItemRWAdapter
 import saf.moham.mammadshop.detail.viewModel.DetailProductViewModel
 import saf.moham.mammadshop.register_and_login.LoginActivity
+import saf.moham.mammadshop.register_and_login.RegisterAndLoginViewModel
+import saf.moham.mammadshop.register_and_login.TokenHolder
 import saf.moham.mammadshop.utilities.*
 import java.util.ArrayList
 
 class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialogItemClicked {
     val detailProductViewModel: DetailProductViewModel by viewModel { parametersOf(intent.extras!!.getString("id")) }
+    val registerAndLoginViewModel: RegisterAndLoginViewModel by viewModel()
     val imageLoading:ImageLoading by inject()
     lateinit var productId:String
     lateinit var productKind:String
@@ -41,6 +45,7 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
         val goProperties=findViewById<ImageView>(R.id.go_properties_image)
         val imgMore=findViewById<ImageView>(R.id.image_more)
         val imgFavorite=findViewById<ImageView>(R.id.image_favorite)
+        imgFavorite.contentDescription = "white"
         val imgBasket=findViewById<ImageView>(R.id.image_shop)
         val imgClose=findViewById<ImageView>(R.id.image_close)
         val ratingBar=findViewById<RatingBar>(R.id.detail_ratingBar)
@@ -77,12 +82,43 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
 
             val rwAdapter: RatingItemRWAdapter by inject { parametersOf(ratingItemsList) }
             ratingsItemRw.adapter = rwAdapter
+        }
 
+        detailProductViewModel.favoriteLiveData.observe(this){
+            if  (it.isNullOrEmpty()){
+                imgFavorite.setImageResource(R.drawable.ic_outline_favorite_border_24)
+                imgFavorite.contentDescription = "white"
+            }else{
+                it.forEach {
+                    if (productId == it.fav_id) {
+                        imgFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                        imgFavorite.contentDescription = "red"
+                    }
+                }
+            }
         }
 
         detailProductViewModel.showProgressBarLiveData.observe(this){
             showProgressBar(it)
         }
+
+        registerAndLoginViewModel.favLiveData.observe(this){
+            if (it.status == "error")
+                startActivity(Intent(applicationContext,LoginActivity::class.java))
+            else{
+                if (it.status == "add"){
+                    imgFavorite.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    imgFavorite.contentDescription = "red"
+                    Toast.makeText(applicationContext,"محصول مورد نظر به علاقه مندی ها افزوده شد",Toast.LENGTH_SHORT).show()
+                }else{
+                    imgFavorite.setImageResource(R.drawable.ic_outline_favorite_border_24)
+                    imgFavorite.contentDescription = "white"
+                    Toast.makeText(applicationContext,"محصول مورد نظر از علاقه مندی ها حذف شد",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+
 
         goProperties.setOnClickListener{
             startActivity(Intent(this,PropertyActivity::class.java))
@@ -99,7 +135,14 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
         }
 
         imgFavorite.setOnClickListener {
-            startActivity(Intent(applicationContext,LoginActivity::class.java))
+            if (TokenHolder.Token.isNullOrEmpty())
+                startActivity(Intent(applicationContext,LoginActivity::class.java))
+            else{
+                if (imgFavorite.contentDescription == "white")
+                    registerAndLoginViewModel.addToFav(productId)
+                else
+                    registerAndLoginViewModel.deleteFromFav(productId)
+            }
         }
 
     }
