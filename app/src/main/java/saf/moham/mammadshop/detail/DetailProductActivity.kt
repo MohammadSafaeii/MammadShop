@@ -1,6 +1,9 @@
 package saf.moham.mammadshop.detail
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuffColorFilter
+import android.graphics.PorterDuffXfermode
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -9,6 +12,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.runtime.produceState
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView

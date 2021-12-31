@@ -28,9 +28,9 @@ class LocalRegisterAndLoginDataSource(val sharedPreferences: SharedPreferences):
 
     override fun checkLogin(): Boolean {
         if (sharedPreferences.getString("token","")=="")
-            return true
-        else
             return false
+        else
+            return true
     }
 
     override fun addToFav(id: String): Single<Message> {

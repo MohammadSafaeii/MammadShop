@@ -48,8 +48,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/image_more"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_outline_favorite_border_24"
-                    app:tint="@color/black" />
+                    app:srcCompat="@drawable/ic_outline_favorite_border_24" />
 
                 <ImageView
                     android:id="@+id/image_close"
