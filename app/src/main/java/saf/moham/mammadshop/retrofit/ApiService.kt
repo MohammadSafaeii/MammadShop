@@ -34,6 +34,16 @@ interface ApiService{
     fun addToFav(@Query("id") id:String): Single<Message>
     @GET("deletefav2.php")
     fun deleteFromFav(@Query("id") id:String): Single<Message>
+    @GET("getcatlist.php")
+    fun getClassification():Single<List<CatClassification>>
+    @GET("getbasket.php")
+    fun getBasketList():Single<ShopResponse>
+    @GET("addbasket.php")
+    fun addToBasket(@Query("productId") id: String):Single<Message>
+    @GET("changecartitemcount.php")
+    fun changeItemCount(@Query("productId") id: String,@Query("count") count: Int):Single<Message>
+    @GET("removecartitem.php")
+    fun removeItemFromBasket(@Query("id") id: String):Single<Message>
 }
 
 fun getClient():ApiService{

@@ -9,6 +9,11 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import saf.moham.mammadshop.classification.ClassificationRWAdapter
+import saf.moham.mammadshop.classification.ClassificationViewModel
+import saf.moham.mammadshop.classification.repository.ClassificationRepository
+import saf.moham.mammadshop.classification.repository.ClassificationRepositoryImp
+import saf.moham.mammadshop.classification.source.RemoteClassificationDataSource
 import saf.moham.mammadshop.data.*
 import saf.moham.mammadshop.detail.adapter.ComparableProductsRWAdapter
 import saf.moham.mammadshop.detail.adapter.CompareRWAdapter
@@ -31,6 +36,11 @@ import saf.moham.mammadshop.register_and_login.repository.RegisterAndLoginReposi
 import saf.moham.mammadshop.register_and_login.source.LocalRegisterAndLoginDataSource
 import saf.moham.mammadshop.register_and_login.source.RemoteRegisterAndLoginDataSource
 import saf.moham.mammadshop.retrofit.getClient
+import saf.moham.mammadshop.shop.ShopBasketRWAdapter
+import saf.moham.mammadshop.shop.ShopViewModel
+import saf.moham.mammadshop.shop.repository.ShopRepository
+import saf.moham.mammadshop.shop.repository.ShopRepositoryImp
+import saf.moham.mammadshop.shop.source.RemoteShopDataSource
 
 class App: Application() {
     override fun onCreate() {
@@ -53,6 +63,8 @@ class App: Application() {
             factory<PropertiesRepository> { PropertiesRepositoryImp(RemotePropertiesDataSource(get())) }
             factory<GraphRepository> { GraphRepositoryImp(RemoteGraphDataSource(get())) }
             factory<ComparableProductsRepository> { ComparableProductsRepositoryImp(RemoteComparableProductsDataSource(get())) }
+            factory<ClassificationRepository> { ClassificationRepositoryImp(RemoteClassificationDataSource(get())) }
+            factory<ShopRepository> { ShopRepositoryImp(RemoteShopDataSource(get())) }
 
             factory { (cats:List<Cat>)-> CatRWAdapter(cats,get()) }
             factory { (amazingProducts:List<AmazingProduct>)-> AmazingProductRWAdapter(amazingProducts,get()) }
@@ -60,20 +72,18 @@ class App: Application() {
             factory { (rating:List<RatingItem>)-> RatingItemRWAdapter(rating) }
             factory { (comparableProducts:List<ComparableProductData>, id:String)-> ComparableProductsRWAdapter(comparableProducts, id, get()) }
             factory { (firstList:List<Property>,secondList:List<Property>)-> CompareRWAdapter(firstList,secondList) }
+            factory { (cats:List<CatProduct>)-> ClassificationRWAdapter(cats, get()) }
+            factory { (shopBasket:ShopResponse)-> ShopBasketRWAdapter(shopBasket,get()) }
 
             viewModel { HomeViewModel(get(),get(),get()) }
-
             viewModel { (id:String)-> DetailProductViewModel(id,get(),get()) }
-
             viewModel { PropertyViewModel(get()) }
-
             viewModel { (id:String)-> GraphViewModel(id,get()) }
-
             viewModel { (bundle:Bundle)-> ComparableProductsViewModel(bundle,get()) }
-
             viewModel { (bundle:Bundle)-> CompareViewModel(bundle,get(),get()) }
-
             viewModel { RegisterAndLoginViewModel(get()) }
+            viewModel { ClassificationViewModel(get()) }
+            viewModel { ShopViewModel(get()) }
 
         }
 

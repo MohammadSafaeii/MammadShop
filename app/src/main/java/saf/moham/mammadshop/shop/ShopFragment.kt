@@ -1,4 +1,4 @@
-package saf.moham.mammadshop.profile
+package saf.moham.mammadshop.shop
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,47 +8,63 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import saf.moham.mammadshop.R
-import saf.moham.mammadshop.detail.DetailProductActivity
 import saf.moham.mammadshop.register_and_login.LoginActivity
 import saf.moham.mammadshop.register_and_login.RegisterAndLoginViewModel
 import saf.moham.mammadshop.utilities.MyFragment
 
-class ProfileFragment : MyFragment() {
-    val registerAndLoginViewModel:RegisterAndLoginViewModel by viewModel()
+
+class ShopFragment : MyFragment() {
+    val shopViewModel: ShopViewModel by viewModel()
+    val registerAndLoginViewModel: RegisterAndLoginViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        return inflater.inflate(R.layout.fragment_shop, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        registerAndLoginViewModel.checkLogin()
+        val basketRecyclerView = view.findViewById<RecyclerView>(R.id.basket_rw)
+        basketRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        shopViewModel.shopItemsLiveData.observe(viewLifecycleOwner){
+            val rwAdapter: ShopBasketRWAdapter by inject { parametersOf(it) }
+            basketRecyclerView.adapter = rwAdapter
+        }
+
+        shopViewModel.showProgressBarLiveData.observe(viewLifecycleOwner){
+            showProgressBar(it)
+        }
 
         val btn_login = view.findViewById<Button>(R.id.profile_login_btn)
-        val loginLayout = view.findViewById<ConstraintLayout>(R.id.profile_login_layout)
-        val profileLayout = view.findViewById<ConstraintLayout>(R.id.profile_profile_layout)
+        val loginLayout = view.findViewById<ConstraintLayout>(R.id.shop_login_layout)
+        val basketLayout = view.findViewById<ConstraintLayout>(R.id.shop_basket_layout)
+
+        registerAndLoginViewModel.checkLogin()
 
         registerAndLoginViewModel.checkLoginLiveData.observe(viewLifecycleOwner){
             if (it){
                 loginLayout.visibility = View.GONE
-                profileLayout.visibility = View.VISIBLE
+                basketLayout.visibility = View.VISIBLE
             }else{
+                showProgressBar(false)
                 loginLayout.visibility = View.VISIBLE
-                profileLayout.visibility = View.GONE
+                basketLayout.visibility = View.GONE
             }
         }
 
         btn_login.setOnClickListener {
             startActivity(Intent(context, LoginActivity::class.java))
         }
-
 
     }
 
