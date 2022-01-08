@@ -7,21 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import saf.moham.mammadshop.R
+import saf.moham.mammadshop.data.Message
 import saf.moham.mammadshop.register_and_login.LoginActivity
 import saf.moham.mammadshop.register_and_login.RegisterAndLoginViewModel
 import saf.moham.mammadshop.utilities.MyFragment
+import saf.moham.mammadshop.utilities.MySingleObserver
+import saf.moham.mammadshop.utilities.singleHelper
 
 
-class ShopFragment : MyFragment() {
+class ShopFragment : MyFragment(),ShopBasketRWAdapter.ShopItemClickListener {
     val shopViewModel: ShopViewModel by viewModel()
     val registerAndLoginViewModel: RegisterAndLoginViewModel by viewModel()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +46,7 @@ class ShopFragment : MyFragment() {
         shopViewModel.shopItemsLiveData.observe(viewLifecycleOwner){
             val rwAdapter: ShopBasketRWAdapter by inject { parametersOf(it) }
             basketRecyclerView.adapter = rwAdapter
+            rwAdapter.setShopItemListener(this)
         }
 
         shopViewModel.showProgressBarLiveData.observe(viewLifecycleOwner){
@@ -66,6 +74,23 @@ class ShopFragment : MyFragment() {
             startActivity(Intent(context, LoginActivity::class.java))
         }
 
+    }
+
+    override fun deleteItemClickListened(id: String) {
+        shopViewModel.removeItemFromBasket(id)
+            .singleHelper()
+            .subscribe(object: MySingleObserver<Message>(compositeDisposable){
+                override fun onSuccess(t: Message) {
+                    if (t.status == "success")
+                        Toast.makeText(context, "محصول مورد نظر از سبد خرید حذف شد", Toast.LENGTH_SHORT).show()
+                        shopViewModel.getItems()
+                }
+            })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 
 }

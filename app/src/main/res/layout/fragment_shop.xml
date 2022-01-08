@@ -8,6 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/shop_login_layout"
+        android:background="@color/blue_100"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -29,7 +30,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/primary_bold"
             android:textSize="18sp"
-            android:text="برای مشاهده اطلاعات پروفایل لطفا وارد حساب کاربری شوید"
+            android:text="برای مشاهده سبد خرید لطفا وارد حساب کاربری شوید"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

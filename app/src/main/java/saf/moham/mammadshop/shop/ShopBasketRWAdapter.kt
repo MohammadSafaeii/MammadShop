@@ -10,8 +10,12 @@ import org.w3c.dom.Text
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.ShopResponse
 import saf.moham.mammadshop.utilities.ImageLoading
+import saf.moham.mammadshop.utilities.currencyFormat
+import saf.moham.mammadshop.utilities.setPersianNumbers
 
 class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLoading): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var shopItemClickListener: ShopItemClickListener?=null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == 0)
@@ -22,15 +26,23 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == 0){
-            (holder as ShopLastItemViewHolder).txtPrice.text = shopBasket.totalPrice.toString()
-            holder.txtPriceTotal.text = shopBasket.totalPrice.toString()
-            holder.txtCount.text = "${shopBasket.message.size-1} کالا "
+            val price = setPersianNumbers(currencyFormat(shopBasket.totalPrice.toString()))
+            (holder as ShopLastItemViewHolder).txtPrice.text = "$price تومان"
+            holder.txtPriceTotal.text = "$price تومان"
+            holder.txtCount.text = "${shopBasket.message.size} کالا "
         }else{
             val item = shopBasket.message[position]
+            val price = setPersianNumbers(currencyFormat((item.price.toInt()*item.count.toInt()).toString()))
             (holder as ShopItemViewHolder).txtTitleProduct.text = item.title
-            holder.txtPriceProduct.text = "قیمت: ${item.price}"
+            holder.txtPriceProduct.text = "$price تومان"
             holder.txtCountProduct.text = item.count
             imageLoading.loadPicture(holder.imgProduct,item.image)
+            holder.txtDeleteProduct.setOnClickListener {
+                shopItemClickListener?.deleteItemClickListened(item.product_id)
+            }
+            holder.itemView.setOnClickListener {
+
+            }
         }
     }
 
@@ -48,12 +60,21 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
         val txtTitleProduct = itemView.findViewById<TextView>(R.id.shop_item_title)
         val txtPriceProduct = itemView.findViewById<TextView>(R.id.shop_item_price)
         val txtCountProduct = itemView.findViewById<TextView>(R.id.shop_item_count)
+        val txtDeleteProduct = itemView.findViewById<TextView>(R.id.shop_item_delete_product)
     }
 
     class ShopLastItemViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
         val txtPrice = itemView.findViewById<TextView>(R.id.shop_last_item_price)
         val txtPriceTotal = itemView.findViewById<TextView>(R.id.shop_last_item_total_price)
         val txtCount = itemView.findViewById<TextView>(R.id.shop_last_item_count)
+    }
+
+    fun setShopItemListener(shopItemClickListener: ShopItemClickListener){
+        this.shopItemClickListener = shopItemClickListener
+    }
+
+    interface ShopItemClickListener{
+        fun deleteItemClickListened(id: String)
     }
 
 }

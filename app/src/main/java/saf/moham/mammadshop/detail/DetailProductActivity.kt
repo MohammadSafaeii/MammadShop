@@ -6,20 +6,20 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.PorterDuffXfermode
 import android.os.Build
 import android.os.Bundle
+import android.os.Message
 import android.text.Html
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.compose.runtime.produceState
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.json.JSONArray
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import saf.moham.mammadshop.MainActivity
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.RatingItem
 import saf.moham.mammadshop.detail.adapter.RatingItemRWAdapter
@@ -34,6 +34,7 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
     val detailProductViewModel: DetailProductViewModel by viewModel { parametersOf(intent.extras!!.getString("id")) }
     val registerAndLoginViewModel: RegisterAndLoginViewModel by viewModel()
     val imageLoading:ImageLoading by inject()
+    val compositeDisposable = CompositeDisposable()
     lateinit var productId:String
     lateinit var productKind:String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +55,7 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
         val imgClose=findViewById<ImageView>(R.id.image_close)
         val ratingBar=findViewById<RatingBar>(R.id.detail_ratingBar)
         val ratingsItemRw=findViewById<RecyclerView>(R.id.ratings_rw)
+        val btnAddToBasket=findViewById<Button>(R.id.btn_detail_addToBasket)
 
         ratingsItemRw.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
@@ -149,6 +151,25 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
             }
         }
 
+        imgBasket.setOnClickListener {
+            homeOrBasket = 1
+            startActivity(Intent(applicationContext,MainActivity::class.java).apply {
+            })
+        }
+
+        btnAddToBasket.setOnClickListener {
+            detailProductViewModel.addToBasket(productId)
+                .singleHelper()
+                .subscribe(object: MySingleObserver<saf.moham.mammadshop.data.Message>(compositeDisposable){
+                    override fun onSuccess(t: saf.moham.mammadshop.data.Message) {
+                        if (t.status == "success")
+                            Toast.makeText(this@DetailProductActivity, "محصول به سبد خرید اضافه شد", Toast.LENGTH_SHORT).show()
+                        else
+                            Toast.makeText(this@DetailProductActivity, "متاسفانه محصول به سبد خرید اضافه نشد", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
+
     }
 
     override fun itemClicked(thisType: String) {
@@ -176,6 +197,11 @@ class DetailProductActivity : MyActivity(),MoreBottomDialogFragment.BottomDialog
                 startActivity(Intent.createChooser(intent,"معرفی محصول"))
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 
 }
