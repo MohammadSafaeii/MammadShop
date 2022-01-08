@@ -3,10 +3,11 @@ package saf.moham.mammadshop.shop
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
-import org.w3c.dom.Text
 import saf.moham.mammadshop.R
 import saf.moham.mammadshop.data.ShopResponse
 import saf.moham.mammadshop.utilities.ImageLoading
@@ -33,16 +34,41 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
         }else{
             val item = shopBasket.message[position]
             val price = setPersianNumbers(currencyFormat((item.price.toInt()*item.count.toInt()).toString()))
+
+            if (item.count.toInt() <= 1){
+                (holder as ShopItemViewHolder).imgDecrease.setImageResource(R.drawable.ic_baseline_delete_outline_24)
+            }
+
             (holder as ShopItemViewHolder).txtTitleProduct.text = item.title
             holder.txtPriceProduct.text = "$price تومان"
             holder.txtCountProduct.text = item.count
             imageLoading.loadPicture(holder.imgProduct,item.image)
+
+            holder.txtCountProduct.visibility = View.VISIBLE
+            holder.progressbar.visibility = View.GONE
+
             holder.txtDeleteProduct.setOnClickListener {
                 shopItemClickListener?.deleteItemClickListened(item.product_id)
             }
+
+            holder.imgIncrease.setOnClickListener {
+                holder.txtCountProduct.visibility = View.INVISIBLE
+                holder.progressbar.visibility = View.VISIBLE
+                val increaseCount = item.count.toInt()+1
+                shopItemClickListener?.changeItemCount(item.product_id, increaseCount)
+            }
+
+            holder.imgDecrease.setOnClickListener {
+                holder.txtCountProduct.visibility = View.INVISIBLE
+                holder.progressbar.visibility = View.VISIBLE
+                val decreaseCount = item.count.toInt()-1
+                shopItemClickListener?.changeItemCount(item.product_id, decreaseCount)
+            }
+
             holder.itemView.setOnClickListener {
 
             }
+
         }
     }
 
@@ -61,6 +87,9 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
         val txtPriceProduct = itemView.findViewById<TextView>(R.id.shop_item_price)
         val txtCountProduct = itemView.findViewById<TextView>(R.id.shop_item_count)
         val txtDeleteProduct = itemView.findViewById<TextView>(R.id.shop_item_delete_product)
+        val imgIncrease = itemView.findViewById<ImageView>(R.id.shop_item_increase)
+        val imgDecrease = itemView.findViewById<ImageView>(R.id.shop_item_decrease)
+        val progressbar = itemView.findViewById<ProgressBar>(R.id.shop_item_progressBar)
     }
 
     class ShopLastItemViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
@@ -75,6 +104,7 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
 
     interface ShopItemClickListener{
         fun deleteItemClickListened(id: String)
+        fun changeItemCount(id: String, count: Int)
     }
 
 }

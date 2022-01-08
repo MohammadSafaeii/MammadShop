@@ -39,4 +39,8 @@ class ShopViewModel(val shopRepository: ShopRepository):BaseViewModel() {
         return shopRepository.removeItemFromBasket(id)
     }
 
+    fun changeItemCount(id: String, count: Int): Single<Message>{
+        return shopRepository.changeItemCount(id, count)
+    }
+
 }

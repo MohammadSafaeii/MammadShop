@@ -81,12 +81,37 @@ class ShopFragment : MyFragment(),ShopBasketRWAdapter.ShopItemClickListener {
             .singleHelper()
             .subscribe(object: MySingleObserver<Message>(compositeDisposable){
                 override fun onSuccess(t: Message) {
-                    if (t.status == "success")
+                    if (t.status == "success") {
                         Toast.makeText(context, "محصول مورد نظر از سبد خرید حذف شد", Toast.LENGTH_SHORT).show()
                         shopViewModel.getItems()
+                    }
                 }
             })
     }
+
+    override fun changeItemCount(id: String, count: Int) {
+        if (count>0) {
+            shopViewModel.changeItemCount(id, count)
+                .singleHelper()
+                .subscribe(object : MySingleObserver<Message>(compositeDisposable) {
+                    override fun onSuccess(t: Message) {
+                        shopViewModel.getItems()
+                    }
+                })
+        }else{
+            shopViewModel.removeItemFromBasket(id)
+                .singleHelper()
+                .subscribe(object: MySingleObserver<Message>(compositeDisposable){
+                    override fun onSuccess(t: Message) {
+                        if (t.status == "success") {
+                            Toast.makeText(context, "محصول مورد نظر از سبد خرید حذف شد", Toast.LENGTH_SHORT).show()
+                            shopViewModel.getItems()
+                        }
+                    }
+                })
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

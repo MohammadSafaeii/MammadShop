@@ -94,7 +94,8 @@
 
 
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/shop_item_progressBar"
+            android:indeterminateTint="@color/red_400"
             android:visibility="gone"
             style="?android:attr/progressBarStyle"
             android:layout_width="20dp"
@@ -105,7 +106,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView14"
+            android:id="@+id/shop_item_increase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -123,11 +124,11 @@
             android:textColor="@color/red_400"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView14"
+            app:layout_constraintEnd_toStartOf="@+id/shop_item_increase"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/shop_item_decrease"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
