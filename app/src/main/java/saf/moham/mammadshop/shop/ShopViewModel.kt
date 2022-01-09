@@ -2,6 +2,8 @@ package saf.moham.mammadshop.shop
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.core.Single
+import org.greenrobot.eventbus.EventBus
+import saf.moham.mammadshop.data.BasketItemCount
 import saf.moham.mammadshop.data.Message
 import saf.moham.mammadshop.data.ShopResponse
 import saf.moham.mammadshop.shop.repository.ShopRepository
@@ -26,11 +28,18 @@ class ShopViewModel(val shopRepository: ShopRepository):BaseViewModel() {
     }
 
     fun getItems(){
-        shopRepository.getItems()
+        shopRepository.getBasketItemCount()
             .singleHelper()
-            .subscribe(object: MySingleObserver<ShopResponse>(compositeDisposable){
-                override fun onSuccess(t: ShopResponse) {
-                    shopItemsLiveData.value = t
+            .subscribe(object: MySingleObserver<BasketItemCount>(compositeDisposable){
+                override fun onSuccess(basketItemCount: BasketItemCount) {
+                    shopRepository.getItems()
+                        .singleHelper()
+                        .subscribe(object: MySingleObserver<ShopResponse>(compositeDisposable){
+                            override fun onSuccess(shopResponse: ShopResponse) {
+                                shopItemsLiveData.value = shopResponse
+                                EventBus.getDefault().postSticky(basketItemCount)
+                            }
+                        })
                 }
             })
     }

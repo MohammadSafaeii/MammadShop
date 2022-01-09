@@ -44,6 +44,8 @@ interface ApiService{
     fun changeItemCount(@Query("productId") id: String,@Query("count") count: Int):Single<Message>
     @GET("removecartitem.php")
     fun removeItemFromBasket(@Query("id") id: String):Single<Message>
+    @GET("getcartitemcount.php")
+    fun getBasketItemCount():Single<BasketItemCount>
 }
 
 fun getClient():ApiService{

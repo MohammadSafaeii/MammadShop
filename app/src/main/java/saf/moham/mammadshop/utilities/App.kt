@@ -9,6 +9,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import saf.moham.mammadshop.MainActivityViewModel
 import saf.moham.mammadshop.classification.ClassificationRWAdapter
 import saf.moham.mammadshop.classification.ClassificationViewModel
 import saf.moham.mammadshop.classification.repository.ClassificationRepository
@@ -84,6 +85,7 @@ class App: Application() {
             viewModel { RegisterAndLoginViewModel(get()) }
             viewModel { ClassificationViewModel(get()) }
             viewModel { ShopViewModel(get()) }
+            viewModel { MainActivityViewModel(get()) }
 
         }
 

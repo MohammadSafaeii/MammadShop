@@ -2,22 +2,31 @@ package saf.moham.mammadshop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.color.MaterialColors
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import saf.moham.mammadshop.classification.ClassificationFragment
+import saf.moham.mammadshop.data.BasketItemCount
 import saf.moham.mammadshop.home.HomeFragment
 import saf.moham.mammadshop.profile.ProfileFragment
 import saf.moham.mammadshop.shop.ShopFragment
 import saf.moham.mammadshop.utilities.homeOrBasket
 
 class MainActivity : AppCompatActivity() {
+        val mainActivityViewModel: MainActivityViewModel by viewModel()
+        lateinit var bottomNavigationView: BottomNavigationView
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
 
+            EventBus.getDefault().register(this)
 
-            val bottomNavigationView = findViewById<BottomNavigationView>(R.id.mainBottomNavigationView)
-
+            bottomNavigationView = findViewById(R.id.mainBottomNavigationView)
             bottomNavigationView.setOnItemSelectedListener{
                 val id = it.itemId
                 when (id) {
@@ -57,6 +66,26 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun cartItemCountEvent(basketItemCount: BasketItemCount){
+        val badge = bottomNavigationView.getOrCreateBadge(R.id.menu_shopping)
+        badge.backgroundColor = MaterialColors.getColor(bottomNavigationView, R.attr.colorSecondaryVariant)
+        badge.badgeGravity = BadgeDrawable.BOTTOM_START
+        badge.number = basketItemCount.count
+        badge.isVisible = basketItemCount.count>0
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainActivityViewModel.getBasketItemCount()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
 }
 
 

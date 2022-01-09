@@ -35,10 +35,6 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
             val item = shopBasket.message[position]
             val price = setPersianNumbers(currencyFormat((item.price.toInt()*item.count.toInt()).toString()))
 
-            if (item.count.toInt() <= 1){
-                (holder as ShopItemViewHolder).imgDecrease.setImageResource(R.drawable.ic_baseline_delete_outline_24)
-            }
-
             (holder as ShopItemViewHolder).txtTitleProduct.text = item.title
             holder.txtPriceProduct.text = "$price تومان"
             holder.txtCountProduct.text = item.count
@@ -46,6 +42,10 @@ class ShopBasketRWAdapter(val shopBasket:ShopResponse, val imageLoading: ImageLo
 
             holder.txtCountProduct.visibility = View.VISIBLE
             holder.progressbar.visibility = View.GONE
+
+            if (item.count.toInt() <= 1){
+                holder.imgDecrease.setImageResource(R.drawable.ic_baseline_delete_outline_24)
+            }
 
             holder.txtDeleteProduct.setOnClickListener {
                 shopItemClickListener?.deleteItemClickListened(item.product_id)
