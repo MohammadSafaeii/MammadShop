@@ -31,6 +31,10 @@ import saf.moham.mammadshop.home.adapter.AmazingProductRWAdapter
 import saf.moham.mammadshop.home.adapter.CatRWAdapter
 import saf.moham.mammadshop.home.repository.*
 import saf.moham.mammadshop.home.source.*
+import saf.moham.mammadshop.pay.PayViewModel
+import saf.moham.mammadshop.pay.repository.PayRepository
+import saf.moham.mammadshop.pay.repository.PayRepositoryImp
+import saf.moham.mammadshop.pay.source.RemotePayDataSource
 import saf.moham.mammadshop.register_and_login.RegisterAndLoginViewModel
 import saf.moham.mammadshop.register_and_login.repository.RegisterAndLoginRepository
 import saf.moham.mammadshop.register_and_login.repository.RegisterAndLoginRepositoryImp
@@ -66,6 +70,7 @@ class App: Application() {
             factory<ComparableProductsRepository> { ComparableProductsRepositoryImp(RemoteComparableProductsDataSource(get())) }
             factory<ClassificationRepository> { ClassificationRepositoryImp(RemoteClassificationDataSource(get())) }
             factory<ShopRepository> { ShopRepositoryImp(RemoteShopDataSource(get())) }
+            factory<PayRepository> { PayRepositoryImp(RemotePayDataSource(get())) }
 
             factory { (cats:List<Cat>)-> CatRWAdapter(cats,get()) }
             factory { (amazingProducts:List<AmazingProduct>)-> AmazingProductRWAdapter(amazingProducts,get()) }
@@ -76,16 +81,17 @@ class App: Application() {
             factory { (cats:List<CatProduct>)-> ClassificationRWAdapter(cats, get()) }
             factory { (shopBasket:ShopResponse)-> ShopBasketRWAdapter(shopBasket,get()) }
 
-            viewModel { HomeViewModel(get(),get(),get()) }
-            viewModel { (id:String)-> DetailProductViewModel(id,get(),get()) }
+            viewModel { HomeViewModel(get(), get(), get()) }
+            viewModel { (id:String)-> DetailProductViewModel(id, get(), get()) }
             viewModel { PropertyViewModel(get()) }
-            viewModel { (id:String)-> GraphViewModel(id,get()) }
-            viewModel { (bundle:Bundle)-> ComparableProductsViewModel(bundle,get()) }
-            viewModel { (bundle:Bundle)-> CompareViewModel(bundle,get(),get()) }
+            viewModel { (id:String)-> GraphViewModel(id, get()) }
+            viewModel { (bundle:Bundle)-> ComparableProductsViewModel(bundle, get()) }
+            viewModel { (bundle:Bundle)-> CompareViewModel(bundle,get(), get()) }
             viewModel { RegisterAndLoginViewModel(get()) }
             viewModel { ClassificationViewModel(get()) }
             viewModel { ShopViewModel(get()) }
             viewModel { MainActivityViewModel(get()) }
+            viewModel { (orderId: String)-> PayViewModel(get(), orderId) }
 
         }
 

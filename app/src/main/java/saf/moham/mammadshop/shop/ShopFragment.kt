@@ -1,6 +1,7 @@
 package saf.moham.mammadshop.shop
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,38 +41,54 @@ class ShopFragment : MyFragment(),ShopBasketRWAdapter.ShopItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val btn_login = view.findViewById<Button>(R.id.profile_login_btn)
+        val loginLayout = view.findViewById<ConstraintLayout>(R.id.shop_login_layout)
+        val basketLayout = view.findViewById<ConstraintLayout>(R.id.shop_basket_layout)
+        val emptyBasketLayout = view.findViewById<ConstraintLayout>(R.id.empty_basket_layout)
+        val btn_pay = view.findViewById<Button>(R.id.shop_pay_btn)
+
         val basketRecyclerView = view.findViewById<RecyclerView>(R.id.basket_rw)
         basketRecyclerView.layoutManager = LinearLayoutManager(context)
 
         shopViewModel.shopItemsLiveData.observe(viewLifecycleOwner){
-            val rwAdapter: ShopBasketRWAdapter by inject { parametersOf(it) }
-            basketRecyclerView.adapter = rwAdapter
-            rwAdapter.setShopItemListener(this)
+            if (it.message.isNotEmpty()) {
+                basketLayout.visibility = View.VISIBLE
+                emptyBasketLayout.visibility = View.GONE
+                val rwAdapter: ShopBasketRWAdapter by inject { parametersOf(it) }
+                basketRecyclerView.adapter = rwAdapter
+                rwAdapter.setShopItemListener(this)
+            }else{
+                basketLayout.visibility = View.GONE
+                emptyBasketLayout.visibility = View.VISIBLE
+            }
         }
 
         shopViewModel.showProgressBarLiveData.observe(viewLifecycleOwner){
             showProgressBar(it)
         }
 
-        val btn_login = view.findViewById<Button>(R.id.profile_login_btn)
-        val loginLayout = view.findViewById<ConstraintLayout>(R.id.shop_login_layout)
-        val basketLayout = view.findViewById<ConstraintLayout>(R.id.shop_basket_layout)
-
         registerAndLoginViewModel.checkLogin()
 
         registerAndLoginViewModel.checkLoginLiveData.observe(viewLifecycleOwner){
             if (it){
                 loginLayout.visibility = View.GONE
-                basketLayout.visibility = View.VISIBLE
+                emptyBasketLayout.visibility = View.VISIBLE
+                basketLayout.visibility = View.GONE
             }else{
                 showProgressBar(false)
                 loginLayout.visibility = View.VISIBLE
+                emptyBasketLayout.visibility = View.GONE
                 basketLayout.visibility = View.GONE
             }
         }
 
         btn_login.setOnClickListener {
             startActivity(Intent(context, LoginActivity::class.java))
+        }
+
+        btn_pay.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://clicksite.org/app_digi_mellat/example.php"))
+            startActivity(intent)
         }
 
     }

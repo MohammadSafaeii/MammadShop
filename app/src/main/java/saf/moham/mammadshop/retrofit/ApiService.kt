@@ -46,6 +46,8 @@ interface ApiService{
     fun removeItemFromBasket(@Query("id") id: String):Single<Message>
     @GET("getcartitemcount.php")
     fun getBasketItemCount():Single<BasketItemCount>
+    @GET("checkout2.php")
+    fun pay(@Query("order_id") orderId: String):Single<Message>
 }
 
 fun getClient():ApiService{
