@@ -51,7 +51,6 @@ interface ApiService{
 }
 
 fun getClient():ApiService{
-
     val okHttpClient = OkHttpClient.Builder()
         .addInterceptor{
             val oldRequest = it.request()
@@ -65,7 +64,7 @@ fun getClient():ApiService{
         .build()
 
     val retrofit=Retrofit.Builder()
-        .baseUrl("https://YOUR_DB_URL/")
+        .baseUrl("https://YOUR_DOMAIN/")
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .client(okHttpClient)
