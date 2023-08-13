@@ -65,7 +65,7 @@ fun getClient():ApiService{
         .build()
 
     val retrofit=Retrofit.Builder()
-        .baseUrl("http://ehsanghafourian.ir/MohammadSafaei/expert-php_2/digikala/")
+        .baseUrl("https://YOUR_DB_URL/")
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .client(okHttpClient)
